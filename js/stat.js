@@ -70,7 +70,7 @@ window.renderStatistics = function (ctx, players, times) {
     if (players[i] === 'Вы') {
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
     } else {
-      ctx.fillStyle = 'hsl(240, 100%, 50%, ' + Math.random() + ')';
+      ctx.fillStyle = 'hsl(240, ' + Math.random() * 100 + '%, 50%)';
     }
 
     ctx.fillRect(
