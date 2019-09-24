@@ -6,11 +6,18 @@ var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161
 var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 var WIZARD_COUNT = 4;
 
-var getRandomElementFromArray = function (array) {
-  return array[Math.round(Math.random() * (array.length - 1))];
+var similarWizardTemplate = document.querySelector('#similar-wizard-template')
+    .content
+    .querySelector('.setup-similar-item');
+var userDialog = document.querySelector('.setup');
+var similarListElement = userDialog.querySelector('.setup-similar-list');
+
+
+var getRandomElementFromArray = function (arr) {
+  return arr[Math.round(Math.random() * (arr.length - 1))];
 };
 
-var getListWizards = function () {
+var getWizards = function () {
   var wizards = [];
   for (var i = 0; i < WIZARD_COUNT; i++) {
     wizards.push(
@@ -25,10 +32,6 @@ var getListWizards = function () {
   return wizards;
 };
 
-var similarWizardTemplate = document.querySelector('#similar-wizard-template')
-    .content
-    .querySelector('.setup-similar-item');
-
 var renderWizard = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
   wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
@@ -38,7 +41,7 @@ var renderWizard = function (wizard) {
   return wizardElement;
 };
 
-var renderListWizards = function (listWizards) {
+var renderWizards = function (listWizards) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < listWizards.length; i++) {
     fragment.appendChild(renderWizard(listWizards[i]));
@@ -47,13 +50,7 @@ var renderListWizards = function (listWizards) {
   return fragment;
 };
 
-var wizards = getListWizards();
-
-var userDialog = document.querySelector('.setup');
+var wizards = getWizards();
+similarListElement.appendChild(renderWizards(wizards));
 userDialog.classList.remove('hidden');
-
-var similarListElement = userDialog.querySelector('.setup-similar-list');
-
-similarListElement.appendChild(renderListWizards(wizards));
-
 userDialog.querySelector('.setup-similar').classList.remove('hidden');
