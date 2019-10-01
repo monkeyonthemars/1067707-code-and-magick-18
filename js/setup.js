@@ -9,7 +9,6 @@ var WIZARD_COUNT = 4;
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
 var setupOpenElement = document.querySelector('.setup-open');
-var setupOpenIconElement = document.querySelector('.setup-open-icon');
 var setupCloseElement = document.querySelector('.setup-close');
 var setupUserNameElement = document.querySelector('.setup-user-name');
 var wizardCoatElement = document.querySelector('.setup-wizard .wizard-coat');
@@ -63,26 +62,6 @@ var renderWizards = function (listWizards) {
   return fragment;
 };
 
-var openSetup = function () {
-  userDialog.classList.remove('hidden');
-  setupCloseElement.addEventListener('click', closeSetup);
-  setupCloseElement.addEventListener('keydown', onSetupCloseEnterPress);
-  document.addEventListener('keydown', onSetupEscPress);
-  wizardCoatElement.addEventListener('click', onWizardCoatElementClick);
-  wizardEyesElement.addEventListener('click', onWizardEyesElementClick);
-  fireballElement.addEventListener('click', onFireballElementClick);
-};
-
-var closeSetup = function () {
-  userDialog.classList.add('hidden');
-  setupCloseElement.removeEventListener('click', closeSetup);
-  setupCloseElement.removeEventListener('keydown', onSetupCloseEnterPress);
-  document.removeEventListener('keydown', onSetupEscPress);
-  wizardCoatElement.removeEventListener('click', onWizardCoatElementClick);
-  wizardEyesElement.removeEventListener('click', onWizardEyesElementClick);
-  fireballElement.removeEventListener('click', onFireballElementClick);
-};
-
 var onWizardCoatElementClick = function () {
   var randomColor = getRandomElementFromArray(COAT_COLORS);
   wizardCoatElement.setAttribute('style', 'fill: ' + randomColor);
@@ -101,10 +80,13 @@ var onFireballElementClick = function () {
   fireballColorInput.setAttribute('value', randomColor);
 };
 
-var onSetupEscPress = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE && evt.target !== setupUserNameElement) {
-    closeSetup();
-  }
+var closeSetup = function () {
+  userDialog.classList.add('hidden');
+  setupCloseElement.removeEventListener('click', closeSetup);
+  setupCloseElement.removeEventListener('keydown', onSetupCloseEnterPress);
+  wizardCoatElement.removeEventListener('click', onWizardCoatElementClick);
+  wizardEyesElement.removeEventListener('click', onWizardEyesElementClick);
+  fireballElement.removeEventListener('click', onFireballElementClick);
 };
 
 var onSetupCloseEnterPress = function (evt) {
@@ -113,14 +95,43 @@ var onSetupCloseEnterPress = function (evt) {
   }
 };
 
-var wizards = getWizards();
-similarListElement.appendChild(renderWizards(wizards));
-userDialog.querySelector('.setup-similar').classList.remove('hidden');
+var onSetupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closeSetup();
+  }
+};
 
-setupOpenIconElement.addEventListener('keydown', function (evt) {
+var openSetup = function () {
+  userDialog.classList.remove('hidden');
+  setupCloseElement.addEventListener('click', closeSetup);
+  setupCloseElement.addEventListener('keydown', onSetupCloseEnterPress);
+  wizardCoatElement.addEventListener('click', onWizardCoatElementClick);
+  wizardEyesElement.addEventListener('click', onWizardEyesElementClick);
+  fireballElement.addEventListener('click', onFireballElementClick);
+  document.addEventListener('keydown', onSetupEscPress);
+};
+
+var onClickSetup = function () {
+  openSetup();
+};
+
+var onSetupEnterPress = function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     openSetup();
   }
+};
+
+setupUserNameElement.addEventListener('focus', function () {
+  document.removeEventListener('keydown', onSetupEscPress);
 });
 
-setupOpenElement.addEventListener('click', openSetup);
+setupUserNameElement.addEventListener('blur', function () {
+  document.addEventListener('keydown', onSetupEscPress);
+});
+
+setupOpenElement.addEventListener('click', onClickSetup);
+setupOpenElement.addEventListener('keydown', onSetupEnterPress);
+
+var wizards = getWizards();
+similarListElement.appendChild(renderWizards(wizards));
+userDialog.querySelector('.setup-similar').classList.remove('hidden');
