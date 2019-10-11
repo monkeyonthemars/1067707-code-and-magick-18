@@ -14,6 +14,56 @@
   var eyesColorInput = document.querySelector('.setup-wizard-appearance input[name=eyes-color]');
   var fireballColorInput = document.querySelector('.setup-fireball-wrap input[name=fireball-color]');
   var userDialog = document.querySelector('.setup');
+  var uploadElement = userDialog.querySelector('.upload');
+
+  var onMouseDown = function (evt) {
+    evt.preventDefault();
+
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var dragged = false;
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+      dragged = true;
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      userDialog.style.top = (userDialog.offsetTop - shift.y) + 'px';
+      userDialog.style.left = (userDialog.offsetLeft - shift.x) + 'px';
+
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+
+      if (dragged) {
+        var onClickPreventDefault = function (defaultEvt) {
+          defaultEvt.preventDefault();
+          uploadElement.removeEventListener('click', onClickPreventDefault);
+        };
+        uploadElement.addEventListener('click', onClickPreventDefault);
+      }
+
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  };
 
   var closeSetup = function () {
     userDialog.classList.add('hidden');
@@ -22,6 +72,7 @@
     wizardCoatElement.removeEventListener('click', onWizardCoatElementClick);
     wizardEyesElement.removeEventListener('click', onWizardEyesElementClick);
     fireballElement.removeEventListener('click', onFireballElementClick);
+    uploadElement.removeEventListener('mousedown', onMouseDown);
   };
 
   var onSetupCloseEnterPress = function (evt) {
@@ -43,6 +94,7 @@
     wizardCoatElement.addEventListener('click', onWizardCoatElementClick);
     wizardEyesElement.addEventListener('click', onWizardEyesElementClick);
     fireballElement.addEventListener('click', onFireballElementClick);
+    uploadElement.addEventListener('mousedown', onMouseDown);
     document.addEventListener('keydown', onSetupEscPress);
   };
 
