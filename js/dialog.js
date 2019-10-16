@@ -15,6 +15,7 @@
   var fireballColorInput = document.querySelector('.setup-fireball-wrap input[name=fireball-color]');
   var userDialog = document.querySelector('.setup');
   var uploadElement = userDialog.querySelector('.upload');
+  var setupWizardForm = userDialog.querySelector('.setup-wizard-form');
 
   var onMouseDown = function (evt) {
     evt.preventDefault();
@@ -136,4 +137,11 @@
 
   setupOpenElement.addEventListener('click', onClickSetup);
   setupOpenElement.addEventListener('keydown', onSetupEnterPress);
+
+  setupWizardForm.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(setupWizardForm), function () {
+      userDialog.classList.add('hidden');
+    });
+    evt.preventDefault();
+  });
 })();
