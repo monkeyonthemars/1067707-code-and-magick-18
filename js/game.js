@@ -443,10 +443,10 @@ window.Game = (function () {
       var message;
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          if (window.renderStatistics) {
+          if (window.stat.render) {
             var statistics = this._generateStatistics(new Date() - this.state.startTime);
             var keys = this._shuffleArray(Object.keys(statistics));
-            window.renderStatistics(this.ctx, keys, keys.map(function (it) {
+            window.stat.render(this.ctx, keys, keys.map(function (it) {
               return statistics[it];
             }));
             return;
