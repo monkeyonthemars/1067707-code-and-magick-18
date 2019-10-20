@@ -18,7 +18,7 @@ var getRank = function (wizard, WizardsInfo) {
 
 window.similar = {
   update: function (wizards, WizardsInfo) {
-    window.render(wizards.slice().
+    window.renderWizards(wizards.slice().
     sort(function (left, right) {
       var rankDiff = getRank(right, WizardsInfo) - getRank(left, WizardsInfo);
       if (rankDiff === 0) {

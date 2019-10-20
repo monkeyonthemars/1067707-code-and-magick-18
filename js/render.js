@@ -13,7 +13,7 @@ var renderWizard = function (wizard) {
   return wizardElement;
 };
 
-window.render = function (data) {
+window.renderWizards = function (data) {
   var similarListElement = document.querySelector('.setup-similar-list');
   var fragment = document.createDocumentFragment();
 
