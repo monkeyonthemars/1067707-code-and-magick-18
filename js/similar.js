@@ -1,16 +1,15 @@
 'use strict';
 
-var wizards = [];
 var RANK_COAT = 2;
 var RANK_EYES = 1;
 
-var getRank = function (wizard, coatColor, eyesColor) {
+var getRank = function (wizard, WizardsInfo) {
   var rank = 0;
 
-  if (wizard.colorCoat === coatColor) {
+  if (wizard.colorCoat === WizardsInfo.coatColor) {
     rank += RANK_COAT;
   }
-  if (wizard.colorEyes === eyesColor) {
+  if (wizard.colorEyes === WizardsInfo.eyesColor) {
     rank += RANK_EYES;
   }
 
@@ -18,12 +17,12 @@ var getRank = function (wizard, coatColor, eyesColor) {
 };
 
 window.similar = {
-  update: function (data) {
-    window.render.render(data.wizards.slice().
+  update: function (wizards, WizardsInfo) {
+    window.render(wizards.slice().
     sort(function (left, right) {
-      var rankDiff = getRank(right, data.coatColor, data.eyesColor) - getRank(left, data.coatColor, data.eyesColor);
+      var rankDiff = getRank(right, WizardsInfo) - getRank(left, WizardsInfo);
       if (rankDiff === 0) {
-        rankDiff = wizards.indexOf(left) - data.wizards.indexOf(right);
+        rankDiff = wizards.indexOf(left) - wizards.indexOf(right);
       }
       return rankDiff;
     }));

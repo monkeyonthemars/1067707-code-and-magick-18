@@ -4,7 +4,7 @@
 
   var getXMLHttpRequest = function (URL, method, onLoad, onError, data) {
     var TIMEOUT = 10000;
-    var Code = {
+    var StatusCode = {
       OK: 200
     };
     var xhr = new XMLHttpRequest();
@@ -12,7 +12,7 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === Code.OK) {
+      if (xhr.status === StatusCode.OK) {
         onLoad(xhr.response);
       } else {
         onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);

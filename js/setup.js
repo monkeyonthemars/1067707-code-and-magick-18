@@ -2,11 +2,12 @@
 
 (function () {
 
+  var wizards = [];
   var WizzardsInfo = {};
 
   var onLoad = function (data) {
-    WizzardsInfo.wizards = data;
-    window.similar.update(WizzardsInfo);
+    wizards = data;
+    window.similar.update(wizards, WizzardsInfo);
     document.querySelector('.setup-similar').classList.remove('hidden');
 
   };
@@ -28,12 +29,12 @@
 
     onEyesChange: window.debounce(function (color) {
       WizzardsInfo.eyesColor = color;
-      window.similar.update(WizzardsInfo);
+      window.similar.update(wizards, WizzardsInfo);
     }),
 
     onCoatChange: window.debounce(function (color) {
       WizzardsInfo.coatColor = color;
-      window.similar.update(WizzardsInfo);
+      window.similar.update(wizards, WizzardsInfo);
     })
   };
 

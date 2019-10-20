@@ -14,7 +14,7 @@
   var userDialog = document.querySelector('.setup');
   var uploadElement = userDialog.querySelector('.upload');
   var setupWizardForm = userDialog.querySelector('.setup-wizard-form');
-  var KeyCodes = {
+  var KeyCode = {
     ESC: 27,
     ENTER: 13
   };
@@ -79,13 +79,13 @@
   };
 
   var onSetupCloseEnterPress = function (evt) {
-    if (evt.keyCode === KeyCodes.ENTER && evt.target === setupCloseElement) {
+    if (evt.keyCode === KeyCode.ENTER && evt.target === setupCloseElement) {
       closeSetup();
     }
   };
 
   var onSetupEscPress = function (evt) {
-    if (evt.keyCode === KeyCodes.ESC) {
+    if (evt.keyCode === KeyCode.ESC) {
       closeSetup();
     }
   };
@@ -106,7 +106,7 @@
   };
 
   var onSetupEnterPress = function (evt) {
-    if (evt.keyCode === KeyCodes.ENTER) {
+    if (evt.keyCode === KeyCode.ENTER) {
       openSetup();
     }
   };
