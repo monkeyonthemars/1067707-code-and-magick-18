@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var ESC_KEYCODE = 27;
-  var ENTER_KEYCODE = 13;
   var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
   var setupOpenElement = document.querySelector('.setup-open');
   var setupCloseElement = document.querySelector('.setup-close');
@@ -16,6 +14,10 @@
   var userDialog = document.querySelector('.setup');
   var uploadElement = userDialog.querySelector('.upload');
   var setupWizardForm = userDialog.querySelector('.setup-wizard-form');
+  var KeyCode = {
+    ESC: 27,
+    ENTER: 13
+  };
 
   var onMouseDown = function (evt) {
     evt.preventDefault();
@@ -77,13 +79,13 @@
   };
 
   var onSetupCloseEnterPress = function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE && evt.target === setupCloseElement) {
+    if (evt.keyCode === KeyCode.ENTER && evt.target === setupCloseElement) {
       closeSetup();
     }
   };
 
   var onSetupEscPress = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+    if (evt.keyCode === KeyCode.ESC) {
       closeSetup();
     }
   };
@@ -104,7 +106,7 @@
   };
 
   var onSetupEnterPress = function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
+    if (evt.keyCode === KeyCode.ENTER) {
       openSetup();
     }
   };
@@ -113,12 +115,14 @@
     var randomColor = window.util.getRandomElementFromArray(window.util.COAT_COLORS);
     wizardCoatElement.setAttribute('style', 'fill: ' + randomColor);
     coatColorInput.setAttribute('value', randomColor);
+    window.setup.onCoatChange(randomColor);
   };
 
   var onWizardEyesElementClick = function () {
     var randomColor = window.util.getRandomElementFromArray(window.util.EYES_COLORS);
     wizardEyesElement.setAttribute('style', 'fill: ' + randomColor);
     eyesColorInput.setAttribute('value', randomColor);
+    window.setup.onEyesChange(randomColor);
   };
 
   var onFireballElementClick = function () {
