@@ -14,6 +14,9 @@
   var userDialog = document.querySelector('.setup');
   var uploadElement = userDialog.querySelector('.upload');
   var setupWizardForm = userDialog.querySelector('.setup-wizard-form');
+  var userPicInput = document.querySelector('.upload input');
+  var userPicElement = document.querySelector('.setup-user-pic');
+  var openIconElement = document.querySelector('.setup-open-icon');
   var KeyCode = {
     ESC: 27,
     ENTER: 13
@@ -76,6 +79,7 @@
     wizardEyesElement.removeEventListener('click', onWizardEyesElementClick);
     fireballElement.removeEventListener('click', onFireballElementClick);
     uploadElement.removeEventListener('mousedown', onMouseDown);
+    userPicInput.removeEventListener('change', changeUserPic);
   };
 
   var onSetupCloseEnterPress = function (evt) {
@@ -90,6 +94,14 @@
     }
   };
 
+  var changeUserPic = function () {
+    if (userPicInput.files.length > 0) {
+      var newUserPic = URL.createObjectURL(userPicInput.files[0]);
+      userPicElement.src = newUserPic;
+      openIconElement.src = newUserPic;
+    }
+  };
+
   var openSetup = function () {
     userDialog.classList.remove('hidden');
     setupCloseElement.addEventListener('click', closeSetup);
@@ -99,6 +111,7 @@
     fireballElement.addEventListener('click', onFireballElementClick);
     uploadElement.addEventListener('mousedown', onMouseDown);
     document.addEventListener('keydown', onSetupEscPress);
+    userPicInput.addEventListener('change', changeUserPic);
   };
 
   var onClickSetup = function () {
